@@ -13,19 +13,8 @@ spring:
       removeAbandoned: true
       removeAbandonedTimeout: 60
       logAbandoned: true
-#      web-stat-filter:
-#        enabled: true
-#        url-pattern: /*
-#        exclusions: .js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*
-#      stat-view-servlet:
-#        # µÇÂ¼ÓÃ»§Ãû/ÃÜÂë
-#        url-pattern: /druid/*
-#        login-username: root
-#        login-password: 111111
   session:
     store-type: jdbc
-  security:
-
   jackson:
     time-zone: GMT+8
   freemarker:
