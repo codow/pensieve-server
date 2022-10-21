@@ -38,6 +38,16 @@ public abstract class DateUtils {
     /**
      * 获取日期（yyyy-MM-dd）字符串
      *
+     * @param time Long
+     * @return String
+     */
+    public static String getString(Long time) {
+        return getString(new Date(time));
+    }
+
+    /**
+     * 获取日期（yyyy-MM-dd）字符串
+     *
      * @param date java.util.Date
      * @return String
      */

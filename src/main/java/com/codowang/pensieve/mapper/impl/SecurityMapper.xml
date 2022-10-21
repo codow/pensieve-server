@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codowang.pensieve.mapper.WebSecurityMapper">
+
+    <select id="selectUserById" resultType="hashmap">
+        SELECT
+            ui.sys_user_id user_id,
+            ui.`name`,
+            ui.first_name,
+            ui.last_name,
+            ui.avatar,
+            ui.sex,
+            ui.birthday,
+            ui.org_id,
+            ui.role_id,
+            ui.is_deleted
+        FROM
+            sys_user ui
+        WHERE
+            ui.sys_user_id = #{userId}
+    </select>
+
+    <select id="selectUserAccount" resultType="map">
+        SELECT
+            ua.sys_user_account_id account_id,
+            ua.user_id,
+            ua.account,
+            ua.password,
+            ua.force_secret_change,
+            ua.type,
+            ua.error_num,
+            ua.error_time,
+            ua.is_locked,
+            ua.last_login_time
+        FROM
+            sys_user_account ua
+        <where>
+            <if test="type != null">
+                AND ua.type = #{type}
+            </if>
+            AND ua.account = #{account}
+        </where>
+    </select>
+
+    <select id="selectUserOrgList" resultType="map">
+        SELECT
+            uo.user_id,
+            uo.org_id,
+            oi.name,
+            oi.type,
+            oi.level_code,
+            uo.sort
+        FROM
+            sys_user_org uo,
+            sys_org oi
+        WHERE
+            uo.org_id = oi.sys_org_id
+            AND oi.is_deleted = 0
+            AND uo.user_id = #{userId}
+    </select>
+
+    <select id="selectUserRoleList" resultType="map">
+        SELECT
+            ur.org_id,
+            ur.role_id,
+            ri.code,
+            ri.name
+        FROM
+            sys_user_role ur,
+            sys_role ri
+        WHERE
+            ur.role_id = ri.sys_role_id
+          AND ri.is_deleted = 0
+          AND ur.user_id = #{userId}
+    </select>
+
+    <update id="updateUserAccount">
+        UPDATE
+            sys_user_account
+        <set>
+            error_num = #{account.errorNum},
+            error_time = #{account.errorTime},
+            is_locked = #{account.isLocked},
+            last_login_time = #{account.lastLoginTime},
+            modify_user_id = 0,
+            modify_time = NOW()
+        </set>
+        WHERE
+            sys_user_account_id = #{account.accountId}
+    </update>
+</mapper>
